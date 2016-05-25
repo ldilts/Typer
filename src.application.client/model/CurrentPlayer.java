@@ -2,6 +2,7 @@ package model;
 
 public class CurrentPlayer {
 	private static CurrentPlayer instance = null;
+	private String id;
 	private String username;
 	private int level;
 	
@@ -18,10 +19,22 @@ public class CurrentPlayer {
 		return instance;
 	}
 	
+	/*
+	 * Getters an Setters
+	 */
+	
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+	
 	public String getUsername() {
 		return username;
 	}
-	
+
 	public void setUsername(String username) {
 		this.username = username;
 	}

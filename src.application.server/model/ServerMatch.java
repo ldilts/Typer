@@ -1,15 +1,20 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+
+import interfaces.Client;
 
 public class ServerMatch {
 	
 	public static final int MAX_PLAYERS = 2;
 	
-	private ArrayList<Player> players;
+	private HashMap<String, Player> players;
 	private String[] words;
+	private String statusString = "";
 	
 	public boolean isMatchReady = false;
+	private String winner = null;
 	
 	/*
 	 * Public Constructors 
@@ -18,7 +23,7 @@ public class ServerMatch {
 	public ServerMatch(String[] words) {
 		super();
 		this.words = words;
-		this.players = new ArrayList<Player>();
+		this.players = new HashMap<String, Player>();
 	}
 	
 	/*
@@ -33,30 +38,60 @@ public class ServerMatch {
 		this.words = words;
 	}
 	
+	public String getStatus() {
+		return statusString;
+	}
+	
+//	public void setStatus(String status) {
+//		this.words = words;
+//	}
+	
+	public String getWinner() {
+		return winner;
+	}
+
+//	public void setWinner(String winner) {
+//		this.winner = winner;
+//	}
+	
 	/*
 	 * Helper Methods
 	 */
-	
-	public String getUsernameFromId(int id) {
-		for (Player player : players) {
-			if (player.getId() == id) {
-				return player.getUsername();
-			}
-		}
-		
-		return "";
+
+	public String getUsernameFromId(String id) {
+		return players.get(id).getUsername();
 	}
 
-	public StatusMessage addPlayer(int id, String username) {
+	public String addPlayer(String username) {
 		if (players.size() < MAX_PLAYERS) {
-			Player newPlayer = new Player(id, username);
-			players.add(newPlayer);
+			Player newPlayer = new Player(username);
+			String id = newPlayer.getId();
+			players.put(id, newPlayer);
 			
+			statusString += id + "=" + username + "=" + 0 + "*";
 			isMatchReady = players.size() == MAX_PLAYERS;
 			
-			return StatusMessage.OK;
+			return id;
 		} else {
-			return StatusMessage.EXPECTATION_FAILED;
+			return "";
+		}
+	}
+	
+	public void updatePlayerLevel(String id, int level) {
+		statusString = "";
+		
+		Player playerToUpdate = players.get(id);
+		playerToUpdate.setLevel(level);
+		players.put(id, playerToUpdate);
+		
+		if (playerToUpdate.getLevel() == words.length) {
+			winner = playerToUpdate.getId();
+		}
+		
+		for (HashMap.Entry<String, Player> entry : players.entrySet()) {
+			Player player = entry.getValue();
+			
+			statusString += player.getId() + "=" + player.getUsername() + "=" + player.getLevel() + "*";
 		}
 	}
 	

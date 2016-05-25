@@ -1,8 +1,10 @@
 package model;
 
+import java.util.UUID;
+
 public class Player {
 	
-	private int id;
+	private String id;
 	private int level;
 	private String username;
 	
@@ -10,10 +12,24 @@ public class Player {
 	 * Public Constructor
 	 */
 	
-	public Player(int id, String username) {
+	public Player(String username) {
+		super();
+		this.id = UUID.randomUUID().toString();
+		this.level = 0;
+		this.username = username;
+	}
+	
+	public Player(String id, String username) {
 		super();
 		this.id = id;
 		this.level = 0;
+		this.username = username;
+	}
+	
+	public Player(String id, String username, int level) {
+		super();
+		this.id = id;
+		this.level = level;
 		this.username = username;
 	}
 	
@@ -21,7 +37,7 @@ public class Player {
 	 * Getters and Setters
 	 */
 	
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 

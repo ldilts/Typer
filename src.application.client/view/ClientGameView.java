@@ -22,4 +22,12 @@ public class ClientGameView {
 		System.out.println("Start game!");
 	}
 
+	public void updateMatch() {
+		System.out.println("Update game!");
+	}
+	
+	public void completeMatch(String username) {
+		System.out.println(username + " is the winner!");
+	}
+
 }
